@@ -3,16 +3,16 @@
 ## This function creates a special "matrix" object that can cache its inverse.
 makeCacheMatrix <- function(x = matrix()) {
   m<-NULL
-  ## caches matrix x, initializes cached inverse matrix m with NULL
+  ## Caches matrix x, initializes cached inverse matrix m with NULL.
   set<-function(y){
     x<<-y
     m<<-NULL
   }
-  ## return original matrix x
+  ## Returns original matrix x.
   get<-function() {x}
-  ## caches inverse matrix m
+  ## Caches inverse matrix m.
   setinverse<-function(inverse) {m<<- inverse}
-  ## returns cached inverse matrix m (or NULL)
+  ## Returns cached inverse matrix m (or NULL).
   getinverse<-function() {m}
   message("[INFO] Special matrix has been initialized which can cache its inverse. \nFunctions are set(...), get(), setinverse(...) and getinverse()")
   
@@ -22,14 +22,13 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## This function computes the inverse of the special "matrix" returned by 
-## makeCacheMatrix. 
-## If the inverse has already been calculated (and the matrix has not changed), 
-## then the cachesolve should retrieve the inverse from the cache.
+## This function computes the inverse of the special "matrix" returned by function 'makeCacheMatrix'. 
+## If the inverse matrix has already been calculated (and the matrix has not changed), the function
+## 'cacheSolve' will retrieve the inverse from the cache.
 cacheSolve <- function(x=matrix(), ...) {
   m<-x$getinverse()
   
-  ## check if an inverse matrix has already been cached.
+  ## Checks if an inverse matrix has already been cached.
   ## m will be NULL if the inverse matrix has not been calculated and cached before
   ## or the original matrix has been changed.
   if(!is.null(m)){ 
@@ -39,12 +38,11 @@ cacheSolve <- function(x=matrix(), ...) {
   matrix<-x$get()
   ## Calculates inverse of a square matrix.
   if(ncol(matrix)==nrow(matrix)){
-    message("[INFO] Calculating and caching inverse matrix.")
     m<-solve(matrix, ...)
     ## caches inverse matrix m
     x$setinverse(m)
   } else {
-    message("[INFO] Cannot inverse non-square matrix.")
+    warning("Cannot inverse non-square matrix.")
   }
   m
 }
