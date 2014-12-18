@@ -14,7 +14,7 @@ makeCacheMatrix <- function(x = matrix()) {
   setinverse<-function(inverse) {m<<- inverse}
   ## returns cached inverse matrix m (or NULL)
   getinverse<-function() {m}
-  message("[INFO] Special matrix has been initialized which can cache its inverse. Functions are set(...), get(), setinverse(...) and getinverse()")
+  message("[INFO] Special matrix has been initialized which can cache its inverse. \nFunctions are set(...), get(), setinverse(...) and getinverse()")
   
   list(set=set, get=get,
        setinverse=setinverse,
@@ -37,12 +37,14 @@ cacheSolve <- function(x=matrix(), ...) {
     return(m)
   }
   matrix<-x$get()
-  ## calculates inverse matrix
-  message("[INFO] Calculating and caching inverse matrix.")
+  ## Calculates inverse of a square matrix.
   if(ncol(matrix)==nrow(matrix)){
-  m<-solve(matrix, ...)
-  ## caches inverse matrix m
-  x$setinverse(m)
-  } else {message("not square")}
+    message("[INFO] Calculating and caching inverse matrix.")
+    m<-solve(matrix, ...)
+    ## caches inverse matrix m
+    x$setinverse(m)
+  } else {
+    message("[INFO] Cannot inverse non-square matrix.")
+  }
   m
 }
